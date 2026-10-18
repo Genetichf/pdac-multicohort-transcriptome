@@ -1,0 +1,27 @@
+suppressMessages(library(Seurat))
+obj <- readRDS("sc/seurat_obj.rds")
+ma <- read.csv("results/meta/module_assignments.csv")
+mucins <- c("MUC5AC","MUC13","MUC4","MUC1","MUC6","MUC2")
+g3 <- setdiff(intersect(ma$gene[as.character(ma$module) == "3"], rownames(obj)), mucins)
+obj <- AddModuleScore(obj, features=list(g3), name="gast", seed=1)
+d <- subset(obj, subset = celltype == "Ductal" & group == "PDAC")
+mucins <- intersect(mucins, rownames(d))
+ex <- as.matrix(GetAssayData(d, layer="data")[mucins, , drop=FALSE])
+s <- d$gast1; smp <- d$sample
+dep <- cbind(log(d$nCount_RNA), log(d$nFeature_RNA))
+rk <- function(x) rank(x)
+partial <- function(x, i) {
+  y <- rk(x[i]); z <- rk(s[i]); D <- apply(dep[i, ], 2, rk)
+  ry <- resid(lm(y ~ D)); rz <- resid(lm(z ~ D))
+  suppressWarnings(cor(ry, rz))
+}
+cat("Depth vs module score (Spearman) per tumor:\n")
+print(round(sapply(split(seq_along(s), smp), function(i)
+  cor(s[i], log(d$nFeature_RNA[i]), method="spearman")), 2))
+res <- sapply(mucins, function(m)
+  sapply(split(seq_along(s), smp), function(i) partial(ex[m, ], i)))
+cat("\nPartial rho within tumor (depth removed):\n"); print(round(res, 2))
+cat("\nMedian / tumors with partial rho > 0.1:\n")
+print(rbind(median=round(apply(res, 2, median, na.rm=TRUE), 2),
+            n_pos=colSums(res > 0.1, na.rm=TRUE)))
+write.csv(res, "results/sc/mucin_within_tumor_depth_adjusted.csv")
