@@ -5,8 +5,15 @@ tumor-versus-normal meta-analysis of six microarray cohorts, tissue-composition 
 TCGA/GTEx RNA-seq confirmation, DepMap dependencies, published-subtype overlap, and single-cell localisation
 in two public atlases.
 
-Author: Hassan Dastsooz, PhD (IIGM-Epigenetics Unit, University of Turin). License: MIT.
-Archived release (code): (https://doi.org/10.5281/zenodo.23459618), Result tables (data): https://doi.org/10.5281/zenodo.23468919
+Author: Hassan Dastsooz, PhD (IIGM-Epigenetics Unit, University of Turin).
+
+License: MIT.
+
+Code archive (v1.0): https://doi.org/10.5281/zenodo.23459619
+
+Code archive (all versions): https://doi.org/10.5281/zenodo.23459618
+
+Result tables (data): https://doi.org/10.5281/zenodo.23468919
 
 ## Data sources (not included; download from the original sources)
 - Microarray cohorts (GEO): GSE28735, GSE62452, GSE15471, GSE16515, GSE62165 (core); GSE32676 (sensitivity only)
