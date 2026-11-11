@@ -9,7 +9,9 @@ Author: Hassan Dastsooz, PhD (IIGM-Epigenetics Unit, University of Turin).
 
 License: MIT.
 
-Code archive (v1.0): https://doi.org/10.5281/zenodo.23459619
+Code archive (v1.0, first analysis): https://doi.org/10.5281/zenodo.23459619
+
+Code archive (v2.0, final analysis with corrected clustering): DOI to be added after the v2.0 release
 
 Code archive (all versions): https://doi.org/10.5281/zenodo.23459618
 
@@ -43,6 +45,24 @@ Run everything from the project folder (`~/pdac_geo`); each script reads and wri
    atlas 2 `sc2_build.R`, `sc2_tests.R`, `sc2_adj5.R`, `sc2_target_table.R`, `sc2_figure.R`;
    sample-level comparisons for both atlases: `sc_sample_level.R`.
 9. Figures: `make_figures.R`, `sc2_figure.R`.
+
+## Final analysis with corrected clustering (v2.0)
+The module analysis was rerun with hierarchical clustering by Ward.D2 on sqrt(2(1 - rho)) (k = 6). Scripts in `ward_corrected/` reproduce
+every module-dependent result in the manuscript (modules of 69/65/59/49/22/16 genes; 22 Module 1 candidates). Steps that do not depend on
+the clustering (meta-analysis, tissue composition, pooled survival, RNA-seq, DepMap) are unchanged from v1.0. Run from `~/pdac_geo`, in this order:
+1. `modules_subtype_ward_corrected.R` - module assignments, module-subtype correlations, module and prognostic-gene Cox models.
+2. `module_overlap_stats_ward_corrected.R` - hypergeometric overlap with Moffitt, Bailey and Puleo lists; BH over the unique gene sets (280-gene primary background, 720-gene sensitivity background).
+3. `module1_candidate_evidence_ward_corrected.R` - the 22 Module 1 candidates not in published lists: bulk, pooled survival and TCGA evidence.
+   The Europe PMC publication counts in the manuscript were obtained in a separate lookup (see `epmc_fix.R` and `epmc_fix2.R`); the count column of this script's output is not used.
+4. `sc_sample_level_ward_corrected.R` - Module 1 score and key genes at sample level in both atlases (ductal cells, exact Wilcoxon tests).
+5. `sc_sample_level_candidates_ward_corrected.R` - the 22 candidates at sample level, BH within each atlas.
+6. `sc_mucin_within_ward_corrected.R` and `sc_mucin_depth_ward_corrected.R` - mucin correlations within tumours, and after adjusting for sequencing depth.
+7. `make_fig6_ward_corrected.R` - Figure 6. (`sc_module_check_ward_corrected.R` is a preliminary check and is not used for the reported results.)
+
+Supplementary table numbering in the final manuscript follows citation order: S1 leave-one-out and REML/Hartung-Knapp sensitivity, S2 compartment markers,
+S3 module membership, S4 candidate evidence (S4a 22 candidates, S4b literature counts, S4c protein evidence), S5 signature, S6 compartment vs single cell,
+S7 survival, S8 module-signature overlap, S9 DepMap, S10 single-cell sample-level results (S10a-S10e).
+Result tables for this version are deposited with the v2.0 data archive.
 
 ## utils/ (metadata inspection, no results written)
 `inspect_candidates.R` and `check_candidates2.R` (vetting candidate microarray cohorts and GSE16515 pairing),
