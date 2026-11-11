@@ -11,7 +11,7 @@ License: MIT.
 
 Code archive (v1.0, first analysis): https://doi.org/10.5281/zenodo.23459619
 
-Code archive (v2.0, final analysis with corrected clustering): DOI to be added after the v2.0 release
+Code archive (v2.0, final analysis with corrected clustering): https://doi.org/10.5281/zenodo.24136446
 
 Code archive (all versions): https://doi.org/10.5281/zenodo.23459618
 
